@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/images/banner.png" alt="CutShare: parallel editing for Final Cut Pro" width="100%"></p>
+<p align="center"><img src="docs/images/social-preview.png" alt="CutShare: parallel editing for Final Cut Pro" width="100%"></p>
 
 # CutShare
 
@@ -50,11 +50,19 @@ flowchart LR
 
 ## Install (Mac)
 
-1. Download the latest release and unzip it.
-2. Double-click **`macos/Install CutShare.command`**. If macOS blocks it, right-click it and choose Open.
-3. Right-click any file > Quick Actions > **Customize…** and switch on the five CutShare items.
+Open Terminal, paste this, press Return:
 
-Requires macOS with Python 3.9+ (`xcode-select --install` provides it) and Final Cut Pro 10.6+.
+```bash
+curl -fsSL https://raw.githubusercontent.com/ryanmarkgenova/cutshare/main/install.sh | bash
+```
+
+That's it. It installs CutShare for your user only (no admin password, nothing to pip install), adds the `cutshare` command, adds the five Finder Quick Actions and switches them on. Run the same line again to update, or run `cutshare update`.
+
+- No Python yet? macOS offers to install Apple's Command Line Tools. Finish that, then paste the line again.
+- Prefer a download? Grab the latest release, unzip it, and double-click `macos/Install CutShare.command`.
+- Uninstall: `curl -fsSL https://raw.githubusercontent.com/ryanmarkgenova/cutshare/main/install.sh | bash -s -- --uninstall`
+
+Requires macOS with Python 3.9+ and Final Cut Pro 10.6+.
 
 ## Using it
 
@@ -98,7 +106,7 @@ cutshare discord <webhook URL>        # optional channel pings
 
 ## Under the hood
 
-- **Pure Python standard library.** No dependencies to install, about 2,400 lines.
+- **Pure Python standard library.** No dependencies, so the installer just copies files: no pip, no virtualenv, no admin password.
 - **FCPXML in, FCPXML out.** Reads `.fcpxml` and `.fcpxmld` from FCP 10.6+ and writes files that validate against Apple's FCPXML 1.11 and 1.13 DTDs.
 - **Exact time math.** All timing is rational (`Fraction`), so nothing drifts off a frame at 23.976, 29.97 or 59.94.
 - **Merge logic.** Resources from every segment are re-keyed, de-duplicated by media identity, and renumbered. Title style IDs are made unique, and connected clips keep their parent-relative timing.

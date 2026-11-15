@@ -26,10 +26,13 @@ INPUT = {
 }
 
 
-def script_for(python, action):
+def script_for(runner, action):
+    """runner is either the `cutshare` launcher or a python3 that has cutshare installed."""
+    cmd = f'"{runner}" ui' if os.path.basename(runner) == "cutshare" else f'"{runner}" -m cutshare ui'
     return (
         "export LANG=en_US.UTF-8\n"
-        f'"{python}" -m cutshare ui {action} "$@" >> "$HOME/.cutshare/quick-actions.log" 2>&1\n'
+        'mkdir -p "$HOME/.cutshare"\n'
+        f'{cmd} {action} "$@" >> "$HOME/.cutshare/quick-actions.log" 2>&1\n'
     )
 
 
@@ -124,7 +127,14 @@ def write_all(python, dest):
     return made
 
 
+def menu_titles():
+    return [title for title, _, _ in ACTIONS]
+
+
 if __name__ == "__main__":
+    if sys.argv[1:2] == ["--titles"]:
+        print("\n".join(menu_titles()))
+        sys.exit(0)
     py = sys.argv[1] if len(sys.argv) > 1 else sys.executable
     dest = sys.argv[2] if len(sys.argv) > 2 else os.path.expanduser("~/Library/Services")
     for b in write_all(py, dest):

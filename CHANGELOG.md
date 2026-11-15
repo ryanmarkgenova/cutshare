@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0 (November 2026)
+- One-line installer: `curl ... | bash`, no pip or admin password, Quick Actions switched on automatically
+- `cutshare update` and an uninstall option
+
 ## 0.2.0 (November 2026)
 - Finder Quick Actions with native dialogs: New project, Open a segment, Submit, Assemble, Status
 - One-step installer (`macos/Install CutShare.command`)

@@ -448,12 +448,17 @@ class MacQuickActions(unittest.TestCase):
         import plistlib
         sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "macos"))
         import make_quick_actions as mqa
-        made = mqa.write_all("/opt/homebrew/bin/python3", self._tmp.name)
+        launcher = "/Users/x/Library/Application Support/CutShare/bin/cutshare"
+        made = mqa.write_all(launcher, self._tmp.name)
+        with open(os.path.join(os.path.dirname(__file__), "..", "install.sh")) as f:
+            installer = f.read()
+        for title in mqa.menu_titles():  # installer switches on exactly these
+            self.assertIn(f'"{title}"', installer)
         self.assertEqual(len(made), 5)
         for b in made:
             with open(os.path.join(b, "Contents", "document.wflow"), "rb") as f:
                 doc = plistlib.load(f)
             cmd = doc["actions"][0]["action"]["ActionParameters"]["COMMAND_STRING"]
-            self.assertIn('"/opt/homebrew/bin/python3" -m cutshare ui', cmd)
+            self.assertIn(f'"{launcher}" ui', cmd)
             with open(os.path.join(b, "Contents", "Info.plist"), "rb") as f:
                 self.assertEqual(plistlib.load(f)["NSServices"][0]["NSMessage"], "runWorkflowAsService")

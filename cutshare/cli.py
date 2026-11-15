@@ -292,6 +292,14 @@ def cmd_log(args):
         print(f"{t[:16].replace('T', ' ')}  {what:<26} {v['author']:<10}{msg}{ch}")
 
 
+INSTALL_URL = "https://raw.githubusercontent.com/ryanmarkgenova/cutshare/main/install.sh"
+
+
+def cmd_update(args):
+    print("Updating CutShare from GitHub...")
+    return subprocess.call(["/bin/bash", "-c", f"curl -fsSL {INSTALL_URL} | bash"])
+
+
 def cmd_discord(args):
     proj, cfg = _ctx(args)
     if args.off:
@@ -416,6 +424,9 @@ def build_parser():
     s = sub.add_parser("log", help="history of versions and masters")
     s.add_argument("segment", nargs="?")
     s.set_defaults(fn=cmd_log)
+
+    s = sub.add_parser("update", help="update CutShare to the latest version")
+    s.set_defaults(fn=cmd_update)
 
     s = sub.add_parser("discord", help="post submits and masters to a Discord channel (optional)")
     s.add_argument("url", nargs="?", help="the channel's webhook URL")
