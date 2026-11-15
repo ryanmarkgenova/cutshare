@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cutshare"
+version = "0.2.0"
+description = "Parallel editing for Final Cut Pro: split a video into segments, edit them on different Macs, stitch them back together."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Ryan Genova" }]
+dependencies = []
+
+[project.scripts]
+cutshare = "cutshare.cli:main"
+
+[tool.setuptools]
+packages = ["cutshare"]
